@@ -1,0 +1,6 @@
+github.com/go-gst/go-gst v1.4.1-0.20250519092828-e2ae3be3b208 h1:n+h++s2ifs0kcDecWo8x5LjUAmqAxdKGTvqRj8FHQOw=
+github.com/go-gst/go-gst v1.4.1-0.20250519092828-e2ae3be3b208/go.mod h1:iAO75Bpcmuhid7+46M0TPB5F00ZXvRf6nDeBqcPlY4k=
+github.com/rswilli/gotk4 v0.0.0-20250519074043-31f51c6f5601 h1:ZRhNPYDKtFDvRZUBI3oOtMLhQLjfODvwhZAdfXMF8PE=
+github.com/rswilli/gotk4 v0.0.0-20250519074043-31f51c6f5601/go.mod h1:KAKkz3MmLKBuGE+NlY9snuxUmmhBMsMQwNBEm98FcHE=
+golang.org/x/sync v0.8.0 h1:3NFvSEYkUoMifnESzZl15y791HH1qU2xm6eCJU5ZPXQ=
+golang.org/x/sync v0.8.0/go.mod h1:Czt+wKu1gCyEFDUtn0jG5QVvpJ6rzVqr5aXyt9drQfk=
