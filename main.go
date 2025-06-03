@@ -35,14 +35,10 @@ func createPipeline() (gst.Pipeline, error) {
 	var (
 		videotestsrc gst.Element
 		videoconvert gst.Element
-
-		capsfilter1 gst.Element
-
-		queue   gst.Element
-		x264enc gst.Element
-
-		capsfilter2 gst.Element
-
+		capsfilter1  gst.Element // replaces "video/x-raw, width=1920, height=1080, framerate=25/1"
+		queue        gst.Element
+		x264enc      gst.Element
+		capsfilter2  gst.Element // replaces "video/x-h264,profile=main"
 		flvmux       gst.Element
 		rtmpsink     gst.Element
 		audiotestsrc gst.Element
@@ -88,13 +84,13 @@ func createPipeline() (gst.Pipeline, error) {
 
 	log.Printf("TryRTMP end of ElementFactoryMake")
 
-	// TODO: add the capabilities
+	// add capabilities
 
 	// videotestsrc is-live=1
 	videotestsrc.SetObjectProperty("is-live", 1)
 
 	// videoconvert
-	// nothing to do
+	// nothing needed here
 
 	// capsfilter1 caps=video/x-raw, width=1920, height=1080, framerate=25/1
 	capsfilter1.SetObjectProperty("caps", "video/x-raw")
@@ -103,7 +99,7 @@ func createPipeline() (gst.Pipeline, error) {
 	capsfilter1.SetObjectProperty("framerate", 25/1)
 
 	// queue
-	// nothing to do
+	// nothing needed here
 
 	// x264enc cabac=1 bframes=2 ref=1
 	videotestsrc.SetObjectProperty("cabac", 1)
