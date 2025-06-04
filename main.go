@@ -29,6 +29,12 @@ gst-launch-1.0 \
 
 const RTMP_DEST = "rtmp://somewhere.any/live/name"
 
+// func fatalIfNill(v any, msg string) {
+// 	if v == nil {
+// 		panic(msg)
+// 	}
+// }
+
 func createPipeline() (gst.Pipeline, error) {
 	log.Printf("TryRTMP start creating pipeline")
 
@@ -87,39 +93,33 @@ func createPipeline() (gst.Pipeline, error) {
 	// add capabilities
 
 	// videotestsrc is-live=1
-	videotestsrc.SetObjectProperty("is-live", 1)
+	videotestsrc.SetObjectProperty("is-live", true)
 
 	// videoconvert
 	// nothing needed here
 
-	// capsfilter1 caps=video/x-raw, width=1920, height=1080, framerate=25/1
-	capsfilter1.SetObjectProperty("caps", "video/x-raw")
-	capsfilter1.SetObjectProperty("width", 1920)
-	capsfilter1.SetObjectProperty("height", 1080)
-	capsfilter1.SetObjectProperty("framerate", 25/1)
+	capsfilter1.SetObjectProperty("caps", gst.CapsFromString("video/x-raw, width=1920, height=1080, framerate=25/1"))
 
 	// queue
 	// nothing needed here
 
 	// x264enc cabac=1 bframes=2 ref=1
-	videotestsrc.SetObjectProperty("cabac", 1)
-	videotestsrc.SetObjectProperty("bframes", 2)
-	videotestsrc.SetObjectProperty("ref", 1)
+	x264enc.SetObjectProperty("cabac", true)
+	x264enc.SetObjectProperty("bframes", 2)
+	x264enc.SetObjectProperty("ref", 1)
 
 	// capsfilter2 caps=video/x-h264, profile=main
-	capsfilter2.SetObjectProperty("caps", "video/x-h264")
-	capsfilter2.SetObjectProperty("profile", "main")
+	capsfilter2.SetObjectProperty("caps", gst.CapsFromString("video/x-h264, profile=main"))
 
 	// flvmux streamable=true name=mux
 	flvmux.SetObjectProperty("streamable", true) // name not required
 
 	// rtmpsink location="${RTMP_DEST} live=1"
-	rtmpsink.SetObjectProperty("location", RTMP_DEST)
-	rtmpsink.SetObjectProperty("live", 1)
+	rtmpsink.SetObjectProperty("location", RTMP_DEST+" live=1")
 
 	// audiotestsrc is-live=1 wave=ticks
-	audiotestsrc.SetObjectProperty("is-live", 1)
-	audiotestsrc.SetObjectProperty("wave", "ticks")
+	audiotestsrc.SetObjectProperty("is-live", true)
+	audiotestsrc.SetObjectProperty("wave", 8) // GstAudioTestSrcWave.ticks
 
 	// voaacenc bitrate=128000
 	voaacenc.SetObjectProperty("bitrate", 128000)
