@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/go-gst/go-gst/pkg/gst"
 )
@@ -119,18 +120,63 @@ func createPipeline() (gst.Pipeline, error) {
 
 	// audiotestsrc is-live=1 wave=ticks
 	audiotestsrc.SetObjectProperty("is-live", true)
-	audiotestsrc.SetObjectProperty("wave", 8) // GstAudioTestSrcWave.ticks
+	// audiotestsrc.SetObjectProperty("wave", 8) // GstAudioTestSrcWave.ticks
+	gst.UtilSetObjectArg(audiotestsrc, "wave", "tick") // alternative method
 
 	// voaacenc bitrate=128000
 	voaacenc.SetObjectProperty("bitrate", 128000)
 
 	// Add the elements to the pipeline and link them
 
+	// add one at a time to finf the offending element
+
+	if ok := pipeline.Add(videotestsrc); ok != true {
+		log.Printf("TryRTMP failed to add videotestsrc")
+	}
+	if ok := pipeline.Add(videoconvert); ok != true {
+		log.Printf("TryRTMP failed to add videoconvert")
+	}
+	if ok := pipeline.Add(capsfilter1); ok != true {
+		log.Printf("TryRTMP failed to add capsfilter1")
+	}
+	if ok := pipeline.Add(queue); ok != true {
+		log.Printf("TryRTMP failed to add queue")
+	}
+	if ok := pipeline.Add(x264enc); ok != true {
+		log.Printf("TryRTMP failed to add x264enc")
+	}
+	if ok := pipeline.Add(capsfilter2); ok != true {
+		log.Printf("TryRTMP failed to add capsfilter2")
+	}
+	if ok := pipeline.Add(flvmux); ok != true {
+		log.Printf("TryRTMP failed to add flvmux")
+	}
+	if ok := pipeline.Add(rtmpsink); ok != true {
+		log.Printf("TryRTMP failed to add rtmpsink")
+	}
+	if ok := pipeline.Add(capsfilter2); ok != true {
+		log.Printf("TryRTMP failed to add capsfilter2")
+	}
+	if ok := pipeline.Add(audiotestsrc); ok != true {
+		log.Printf("TryRTMP failed to add audiotestsrc")
+	}
+	if ok := pipeline.Add(voaacenc); ok != true {
+		log.Printf("TryRTMP failed to add voaacenc")
+	}
+	if ok := pipeline.Add(flvmux); ok != true {
+		log.Printf("TryRTMP failed to add flvmux")
+	}
+
+	os.Exit(1)
+
 	if ok := pipeline.AddMany(videotestsrc, videoconvert, capsfilter1,
 		queue, x264enc, capsfilter2,
 		flvmux, rtmpsink, audiotestsrc, voaacenc, flvmux); ok != true {
 		log.Fatalf("TryRTMP fatal: pipeline.AddMany returned %v", ok)
 	}
+
+	// TODO: need to call Link (or LinkMany) for each “!” in the gst-launch call
+
 	if ok := gst.LinkMany(videotestsrc, videoconvert, capsfilter1,
 		queue, x264enc, capsfilter2,
 		flvmux, rtmpsink, audiotestsrc, voaacenc, flvmux); ok != true {
