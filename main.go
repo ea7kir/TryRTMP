@@ -28,7 +28,7 @@ gst-launch-1.0 \
     ! mux.
 */
 
-const RTMP_DEST = "rtmp://somewhere.any/live/name" // i'm unable to reveal the real url to the pubic
+const RTMP_DEST = "rtmp://somewhere.any/live/name" // I'm unable to reveal the real url to the pubic
 
 func createPipeline() (gst.Pipeline, error) {
 	log.Printf("TryRTMP start creating pipeline")
@@ -207,7 +207,7 @@ func createPipeline() (gst.Pipeline, error) {
 	}
 
 	log.Printf("TryRTMP end of creating pipeline")
-	os.Exit(1) // no point proceeding without a real destination url
+	os.Exit(1) // no point proceeding as I'm unable to reveal the real url to the pubic
 	return pipeline, nil
 }
 

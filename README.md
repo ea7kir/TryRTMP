@@ -1,11 +1,10 @@
-# Not working - yet - June 7 - 15:11
+# Not working - June 7 - 15:49
+## Porting CLI to Go using the development version of go-gst
 My mission is to get this working before replacing `videotestsrc` with `appsrc`.
 
 This would be a major step forward and allow further testing before moving on.
 
-To help debug this I've 2 approaches.
-
-## Line 125 contains an `if statement` to allow 2 ways to be tested.
+## Line 125 contains an `if statement` to help while testing.
 ### 1. using `pipeline.Add`
 ```
 $ go run .
@@ -31,6 +30,6 @@ $ go run .
 exit status 1
 ```
 ## Notes
-`gst.LinkMany` has been editedto how I interpret @RSWilli's suggestion.
+`gst.LinkMany` has been edited to how I interpret @RSWilli's suggestion.
 
-Line 210 exits, because I'm using a summy destination url.
+Line 210 exits, because I'm using a dummy destination url.
