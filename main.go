@@ -122,7 +122,7 @@ func createPipeline() (gst.Pipeline, error) {
 
 	// Add the elements to the pipeline and link them
 
-	if true {
+	if false {
 		log.Printf("TryRTMP using pipeline.Add")
 		if ok := pipeline.Add(videotestsrc); ok != true {
 			log.Printf("TryRTMP failed to add videotestsrc")
@@ -148,9 +148,6 @@ func createPipeline() (gst.Pipeline, error) {
 		if ok := pipeline.Add(rtmpsink); ok != true {
 			log.Printf("TryRTMP failed to add rtmpsink")
 		}
-		if ok := pipeline.Add(capsfilter2); ok != true {
-			log.Printf("TryRTMP failed to add capsfilter2")
-		}
 		if ok := pipeline.Add(audiotestsrc); ok != true {
 			log.Printf("TryRTMP failed to add audiotestsrc")
 		}
@@ -165,7 +162,7 @@ func createPipeline() (gst.Pipeline, error) {
 		log.Printf("TryRTMP using pipeline.AddMany")
 		if ok := pipeline.AddMany(videotestsrc, videoconvert, capsfilter1,
 			queue, x264enc, capsfilter2,
-			flvmux, rtmpsink, audiotestsrc, voaacenc, flvmux); ok != true {
+			flvmux, rtmpsink, audiotestsrc, voaacenc); ok != true {
 			log.Fatalf("TryRTMP fatal: pipeline.AddMany returned %v", ok)
 		}
 		// os.Exit(1)
@@ -192,7 +189,7 @@ func createPipeline() (gst.Pipeline, error) {
 	*/
 
 	if ok := gst.LinkMany(
-		// videotestsrc,
+		videotestsrc,
 		videoconvert,
 		capsfilter1,
 		queue,
